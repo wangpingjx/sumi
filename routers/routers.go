@@ -6,7 +6,9 @@ import (
 )
 
 func init() {
-    goblin.Get("/books",    &controllers.BooksController{}, "Index")
-    goblin.Get("/books/:id",  &controllers.BooksController{}, "Show")
+    goblin.Get("/books",                     &controllers.BooksController{}, "Index")
     goblin.Get("/users/:user_id/books/:id",  &controllers.BooksController{}, "Index")
+    goblin.Get("/books/:id",                 &controllers.BooksController{}, "Show")
+    goblin.Post("/books",                    &controllers.BooksController{}, "Create")
+
 }
