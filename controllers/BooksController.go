@@ -29,7 +29,11 @@ import (
      book := new(models.Book)  // 实例化
      sql  := book.Sample()
 
-     this.RenderText(sql)
+     data := make(map[string]interface{})
+     data["params"] = this.Ctx.Params
+     data["output"] = sql
+
+     this.RenderJSON(data)
  }
 
  func (this *BooksController) Create() {
