@@ -11,29 +11,19 @@ import (
  }
 
  func (this *BooksController) Index() {
-     log.Println("=> in book list")
-     log.Printf("=> Params: %v", this.Ctx.Params)
+    params := this.Ctx.Params   // 参数
+    book   := new(models.Book)  // 实例化
+    result := book.List(params["perpage"], params["page"])
 
-     // render json
-     data := make(map[string]interface{})
-     data["id"] = 1
-     data["name"] = "Anne"
-     this.RenderJSON(data)
+    this.RenderJSON(result)
  }
 
  func (this *BooksController) Show() {
-     log.Println("=> in book show")
-     log.Printf("=> Params: %v", this.Ctx.Params)
+     params := this.Ctx.Params
+     book   := new(models.Book)  // 实例化
+     result := book.Show(params["id"])
 
-     // 调用 model 方法
-     book := new(models.Book)  // 实例化
-     sql  := book.Sample()
-
-     data := make(map[string]interface{})
-     data["params"] = this.Ctx.Params
-     data["output"] = sql
-
-     this.RenderJSON(data)
+     this.RenderJSON(result)
  }
 
  func (this *BooksController) Create() {

@@ -14,37 +14,57 @@ type Book struct {
     password string
 }
 
-/* TODO 支持设置表名 */
-/*
-func (this Book) TableName() string {
-    return "books"
-}
-*/
-func (this *Book) Sample() string {
-    log.Println("=> in BookModel#Sample")
+/* 获取数据库连接 TODO 应该放到Model基类中 */
+var conn *db.DB
+var err error
 
-    db, err := db.Open("mysql", "root:@tcp(127.0.0.1:3306)/sumi")
+func init() {
+    conn, err = db.Open("mysql", "root:@tcp(127.0.0.1:3306)/sumi")
     if err != nil {
         log.Fatal(err)
     }
-    rows, err := db.Table("users").Select("id, username, password").Where("id in (?)", []int{1,2}).Where("username like ?", "%es%").Find()
+}
+
+func (this *Book) List(perpage string, page string) []map[string]interface{} {
+    rows, err := conn.Table("book").Select("id, name").Where("id > ?", 0).Find()
     if err != nil {
         log.Fatal(err)
     }
     var (
-        id int
-        username string
-        password string
+        id   int
+        name string
+    )
+    var data []map[string]interface{}
+    for rows.Next() {
+        err := rows.Scan(&id, &name)
+        if err != nil {
+            log.Fatal(err)
+        }
+        tmp := map[string]interface{}{"id": id, "name": name}
+        data = append(data, tmp)
+    }
+    return data
+}
+
+
+func (this *Book) Show(bookId string) map[string]interface{} {
+    rows, err := conn.Table("book").Select("id, name").Where("id = ?", bookId).Find()
+    if err != nil {
+        log.Fatal(err)
+    }
+    data := make(map[string]interface{})
+    var (
+        id   int
+        name string
     )
     for rows.Next() {
-    	err := rows.Scan(&id, &username, &password)
+    	err := rows.Scan(&id, &name)
     	if err != nil {
     		log.Fatal(err)
     	}
-        log.Printf("id: %d", id)
-    	log.Printf("useranme: %s", username)
-        log.Printf("password: %s", password)
+        data["id"]   = id
+        data["name"] = name
+        break
     }
-    defer rows.Close()
-    return "success"
+    return data
 }
