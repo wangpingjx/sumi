@@ -7,13 +7,19 @@ import (
     "log"
 )
 
+/* TODO 默认表名为类名的小写，也可通过 TableName()方法指定表名 */
 type Book struct {
-    // QueryBuilder  db.QueryBuilder  // 查询构造器
     id       int
     username string
     password string
 }
 
+/* TODO 支持设置表名 */
+/*
+func (this Book) TableName() string {
+    return "books"
+}
+*/
 func (this *Book) Sample() string {
     log.Println("=> in BookModel#Sample")
 
@@ -21,7 +27,7 @@ func (this *Book) Sample() string {
     if err != nil {
         log.Fatal(err)
     }
-    rows,err := db.DB().Query("select id, username, password from users where id = ?", 1)
+    rows, err := db.Table("users").Select("id, username, password").Where("id in (?)", []int{1,2}).Where("username like ?", "%es%").Find()
     if err != nil {
         log.Fatal(err)
     }
@@ -40,7 +46,5 @@ func (this *Book) Sample() string {
         log.Printf("password: %s", password)
     }
     defer rows.Close()
-
-    // sql := this.QueryBuilder.Table("book").Select("id").Where("name = ?", "test").Limit(1).ToString()
     return "success"
 }
