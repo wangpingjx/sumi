@@ -1,9 +1,6 @@
 package models
 
 import (
-    "goblin/db"
-    // "database/sql"
-    _ "github.com/go-sql-driver/mysql"
     "log"
 )
 
@@ -14,19 +11,8 @@ type Book struct {
     password string
 }
 
-/* 获取数据库连接 TODO 应该放到Model基类中 */
-var conn *db.DB
-var err error
-
-func init() {
-    conn, err = db.Open("mysql", "root:@tcp(127.0.0.1:3306)/sumi")
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-
 func (this *Book) List(perpage string, page string) []map[string]interface{} {
-    rows, err := conn.Table("book").Select("id, name").Where("id > ?", 0).Find()
+    rows, err := DB.Table("book").Select("id, name").Where("id > ?", 0).Find()
     if err != nil {
         log.Fatal(err)
     }
@@ -48,7 +34,7 @@ func (this *Book) List(perpage string, page string) []map[string]interface{} {
 
 
 func (this *Book) Show(bookId string) map[string]interface{} {
-    rows, err := conn.Table("book").Select("id, name").Where("id = ?", bookId).Find()
+    rows, err := DB.Table("book").Select("id, name").Where("id = ?", bookId).Find()
     if err != nil {
         log.Fatal(err)
     }
