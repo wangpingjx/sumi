@@ -14,4 +14,5 @@ func init() {
     if err != nil {
         log.Fatal(err)
     }
+    DB.Migrate(&Test{})
 }
