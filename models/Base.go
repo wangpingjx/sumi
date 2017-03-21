@@ -14,5 +14,18 @@ func init() {
     if err != nil {
         log.Fatal(err)
     }
-    DB.Migrate(&Test{})
+
+    // DB.Migrate(&Test{})
+
+    // DB.DropTable(&Test{})
+
+    // DB.ModifyColumn(&Test{}, "authorid", "int(11) unsigned  COMMENT '修改后作者ID'")
+
+    // DB.DropColumn(&Test{}, "test1")
+
+    // DB.AddIndex(&Test{}, "idx_authorid_created_at", "authorid", "created_at")
+
+    // DB.AddUniqueIndex(&Test{}, "idx_name", "name")
+
+    // DB.RemoveIndex(&Test{}, "name")
 }
