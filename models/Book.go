@@ -5,20 +5,13 @@ import (
     "time"
 )
 
-/* TODO 默认表名为类名的小写，也可通过 TableName()方法指定表名 */
 type Book struct {
-    id       int
-    username string
-    password string
-}
-
-type Test struct {
-    id         int       `db:"int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID'" index:"PRIMARY KEY"`
-    authorId   string    `db:"int(11) unsigned  COMMENT '作者ID'" index:"INDEX"`
-    name       string    `db:"varchar(255) NOT NULL DEFAULT '' COMMENT '名称'" index:"UNIQUE"`
-    desc       string    `db:"text  COMMENT '描述'"`
-    created_at time.Time `db:"timestamp NULL DEFAULT NULL"`
-    updated_at time.Time `db:"timestamp NULL DEFAULT NULL"`
+    id         int        `schema:"int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID'" index:"PRIMARY KEY"`
+    name       string     `schema:"varchar(255) NOT NULL DEFAULT '' COMMENT '书名'" index:"KEY"`
+    desc       string     `schema:"text COMMENT '描述'"`
+    author_id  int        `schema:"int(11) NOT NULL DEFAULT 0 COMMENT '作者ID'" index:"KEY"`
+    created_at time.Time  `schema:"timestamp NULL DEFAULT NULL COMMENT '创建时间'"`
+    updated_at time.Time  `schema:"timestamp NULL DEFAULT NULL COMMENT '更新时间'"`
 }
 
 func (this *Book) List(perpage string, page string) []map[string]interface{} {
