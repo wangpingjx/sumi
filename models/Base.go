@@ -28,21 +28,36 @@ func init() {
     // author := &Author{Name: "测试4", Created_at: time.Now(), Updated_at: time.Now()}
     // DB.Create(author)
 
-    author    := Author{}
-    rows, err := DB.First(&author)
+    log.Println("=> for DB.First(&Author{}).......")
+    author1 := Author{}
+    DB.First(&author1)
+    log.Printf("author1 is: %v", author1)
+    log.Printf("author1 name is: %s", author1.Name)
 
-    // 希望达成的效果
-    // log.Printf("author name is: %v", author.Name)
+    author2 := Author{}
+    DB.Last(&author2)
+    log.Printf("author2 is: %v", author2)
+    log.Printf("author2 name is: %s", author2.Name)
 
-    // 现在的效果
-    if err != nil {
-        log.Fatal(err)
+    // 传入Slice
+    log.Println("=> for DB.First(&[]Author).......")
+    var authors2 []Author
+    DB.Find(&authors2)
+    log.Printf("authors is: %v", authors2)
+    for _, author := range authors2 {
+        log.Printf("author is: %v", author)
+        log.Printf("author name is: %s", author.Name)
     }
-    for rows.Next() {
-        err := rows.Scan(&author.Id, &author.Name, &author.Created_at, &author.Updated_at)
-        if err != nil {
-            log.Fatal(err)
-        }
+
+    // 传入Slice指针
+    log.Println("=> for DB.First(&[]*Author).......")
+    var authors []*Author
+    DB.Find(&authors)
+    log.Printf("authors is: %v", authors)
+    for _, author := range authors {
+        log.Printf("author is: %v", *author)
+        log.Printf("author name is: %s", (*author).Name)
     }
-    log.Printf("result: %v", author)
+
+
 }
