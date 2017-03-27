@@ -27,9 +27,22 @@ func init() {
     // QueryBuilder
     // DB.Table("book").Select("id, name").Where("id > ?", 0).Find()
 
-    // CRUD
-    author := &Author{Name: "测试9", Created_at: time.Now(), Updated_at: time.Now()}
-    DB.Create(author)
+    // Create
+    // author := &Author{Name: "测试9", Created_at: time.Now(), Updated_at: time.Now()}
+    // DB.Create(author)
+
+    // Update
+    // DB.Model(Author{}).Where("id = ?", 5).Update("name", "测试5")
+
+    // Save -> update
+    // var author Author
+    // DB.First(&author)
+    // author.Name = "测试"
+    // DB.Save(&author)
+
+    // Save -> create
+    // author := Author{Name: "测试10", Created_at: time.Now(), Updated_at: time.Now()}
+    // DB.Save(&author)
 
     // var authors []Author
     // DB.Find(&authors)
