@@ -4,7 +4,7 @@ import (
     "goblin/db"
     _ "github.com/go-sql-driver/mysql"
     "log"
-    // "time"
+    "time"
 )
 
 var DB *db.DB
@@ -24,40 +24,54 @@ func init() {
     // DB.AddUniqueIndex(&Test{}, "idx_name", "name")
     // DB.RemoveIndex(&Test{}, "name")
 
+    // QueryBuilder
+    // DB.Table("book").Select("id, name").Where("id > ?", 0).Find()
+
     // CRUD
-    // author := &Author{Name: "测试4", Created_at: time.Now(), Updated_at: time.Now()}
-    // DB.Create(author)
+    author := &Author{Name: "测试9", Created_at: time.Now(), Updated_at: time.Now()}
+    DB.Create(author)
 
-    log.Println("=> for DB.First(&Author{}).......")
-    author1 := Author{}
-    DB.First(&author1)
-    log.Printf("author1 is: %v", author1)
-    log.Printf("author1 name is: %s", author1.Name)
+    // var authors []Author
+    // DB.Find(&authors)
+    // log.Printf("authors is: %v", authors)
+    //
+    // author1 := Author{}
+    // DB.First(&author1)
+    // log.Printf("author1 is: %v", author1)
+    //
+    // author2 := Author{}
+    // DB.Last(&author2)
+    // log.Printf("author2 is: %v", author2)
 
-    author2 := Author{}
-    DB.Last(&author2)
-    log.Printf("author2 is: %v", author2)
-    log.Printf("author2 name is: %s", author2.Name)
+    // // 传入Slice
+    // log.Println("=> for DB.First(&[]Author).......")
+    // var authors2 []Author
+    // DB.Find(&authors2)
+    // log.Printf("authors is: %v", authors2)
+    // for _, author := range authors2 {
+    //     log.Printf("author is: %v", author)
+    //     log.Printf("author name is: %s", author.Name)
+    // }
+    //
+    // // 传入Slice指针
+    // log.Println("=> for DB.First(&[]*Author).......")
+    // var authors []*Author
+    // DB.Find(&authors)
+    // log.Printf("authors is: %v", authors)
+    // for _, author := range authors {
+    //     log.Printf("author is: %v", *author)
+    //     log.Printf("author name is: %s", (*author).Name)
+    // }
 
-    // 传入Slice
-    log.Println("=> for DB.First(&[]Author).......")
-    var authors2 []Author
-    DB.Find(&authors2)
-    log.Printf("authors is: %v", authors2)
-    for _, author := range authors2 {
-        log.Printf("author is: %v", author)
-        log.Printf("author name is: %s", author.Name)
-    }
+    // author := Author{}
+    // DB.Where("id = ?", 1).Find(&author)
+    // log.Printf("author is : %v", author)
+    // DB.Where("id > ?", 1).First(&author)
+    // log.Printf("author is : %v", author)
+    // DB.Where("id > ?", 1).Last(&author)
+    // log.Printf("author is : %v", author)
 
-    // 传入Slice指针
-    log.Println("=> for DB.First(&[]*Author).......")
-    var authors []*Author
-    DB.Find(&authors)
-    log.Printf("authors is: %v", authors)
-    for _, author := range authors {
-        log.Printf("author is: %v", *author)
-        log.Printf("author name is: %s", (*author).Name)
-    }
-
-
+    // var authors []Author
+    // DB.Where("id > ?", 1).Order("id DESC").Limit(2).Find(&authors)
+    // log.Printf("authors is : %v", authors)
 }

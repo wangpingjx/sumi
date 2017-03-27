@@ -22,7 +22,6 @@ import (
      params := this.Ctx.Params
      book   := new(models.Book)  // 实例化
      result := book.Show(params["id"])
-
      this.RenderJSON(result)
  }
 
