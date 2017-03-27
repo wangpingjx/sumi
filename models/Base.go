@@ -4,7 +4,7 @@ import (
     "goblin/db"
     _ "github.com/go-sql-driver/mysql"
     "log"
-    "time"
+    // "time"
 )
 
 var DB *db.DB
@@ -43,6 +43,14 @@ func init() {
     // Save -> create
     // author := Author{Name: "测试10", Created_at: time.Now(), Updated_at: time.Now()}
     // DB.Save(&author)
+
+    // Delete
+    // method one
+    var author Author
+    DB.Last(&author)
+    DB.Delete(&author)
+    // method two
+    // DB.Where("id > ?", 9).Delete(Author{})
 
     // var authors []Author
     // DB.Find(&authors)
