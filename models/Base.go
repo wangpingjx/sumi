@@ -15,6 +15,8 @@ func init() {
     if err != nil {
         log.Fatal(err)
     }
+    // DB.Migrate(&User{})
+
     // Migration
     // DB.Migrate(&Book{}, &Author{})
     // DB.DropTable(&Test{})
@@ -45,11 +47,9 @@ func init() {
     // DB.Save(&author)
 
     // Delete
-    // method one
-    var author Author
-    DB.Last(&author)
-    DB.Delete(&author)
-    // method two
+    // var author Author
+    // DB.Last(&author)
+    // DB.Delete(&author)
     // DB.Where("id > ?", 9).Delete(Author{})
 
     // var authors []Author
@@ -85,7 +85,7 @@ func init() {
     // }
 
     // author := Author{}
-    // DB.Where("id = ?", 1).Find(&author)
+    // DB.Where("author.id > ?", 1).Where("author.name like ?", "测试%").Join("INNER", "book", "book.author_id = author.id").Limit(1).Find(&author)
     // log.Printf("author is : %v", author)
     // DB.Where("id > ?", 1).First(&author)
     // log.Printf("author is : %v", author)
